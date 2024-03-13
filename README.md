@@ -43,3 +43,19 @@ Before proceeding with the setup, ensure you have the following installed on you
     `docker exec -it php-l-jsn-vlink-shortener-laravel.test-1 php artisan migrate` 
     
     This command runs the migration files against the database to create the necessary tables for the application.
+
+5.  **Install Node.js Dependencies**
+    
+    With the Docker containers up and running, you'll next need to install the Node.js dependencies required for the front-end part of the application. Open a new terminal window or tab and execute the following command:
+    
+    `./vendor/bin/sail npm install` 
+    
+    This command will use Docker to run npm install within the application's container, ensuring that all Node.js dependencies are installed according to the package.json file located in the application root.
+
+6.  **Compile Front-End Assets**
+    
+    After the installation of Node.js dependencies, you must compile the front-end assets using Laravel Mix. In the same terminal window or tab, execute the following command:
+    
+    `./vendor/bin/sail npm run dev` 
+    
+    This command triggers Laravel Mix to compile and publish the assets, such as CSS and JavaScript files, making them available for use by the application.
