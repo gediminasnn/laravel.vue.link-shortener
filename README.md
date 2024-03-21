@@ -10,6 +10,7 @@ Before proceeding with the setup, ensure you have the following installed on you
 
 -   Docker
 -   Docker Compose
+-   PHP 8.2^
 
 ## Installation Steps
 
@@ -64,3 +65,13 @@ Before proceeding with the setup, ensure you have the following installed on you
     `./vendor/bin/sail npm run dev` 
     
     This command triggers Laravel Mix to compile and publish the assets, such as CSS and JavaScript files, making them available for use by the application.
+
+7.  **Run Tests**
+    
+    Ensure that your Docker containers are still up and running. Then, open a new terminal window or tab and execute the following command:
+    
+    `./vendor/bin/sail php artisan test` 
+    
+    This command will use Laravel's built-in test runner to execute your application's test suite. It will run all the tests located in the tests directory of your application. Pay attention to the output of this command, as it will report on the success or failure of each test case. Fixing any failing tests is essential before moving on to deploying or using the application in a production environment.
+
+    By completing this step, you will have fully set up your URL shortener application on your local development environment, ensuring it is ready for further development, testing, or deployment.
