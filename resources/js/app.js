@@ -2,7 +2,7 @@ import './bootstrap';
 
 import { createApp } from 'vue'
 
-import Welcome from './Welcome.vue';
+import UrlShortener from '../views/components/UrlShortener.vue';
+import '../css/app.css'
 
-
-createApp(Welcome).mount('#app')
+createApp(UrlShortener).mount('#app')
