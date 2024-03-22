@@ -1,5 +1,5 @@
 <template>
-    <div class="shadow-xl container mx-auto px-4 py-8 bg-gray-200 rounded-2xl shadow-md m-5">
+    <div class="shadow-md container mx-auto px-4 py-8 rounded-2xl shadow-xl m-5 bg-white">
         <h1 class="text-5xl font-semibold text-center">URL Shortener</h1>
         <form @submit.prevent="shortenUrl" class="m-6">
             <div class="flex flex-col mb-4">
@@ -15,7 +15,9 @@
             </div>
 
             <button type="submit"
-                class="shadow-xl bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-700">Shorten</button>
+                class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 focus:ring-blue-700 rounded-full">
+                Shorten
+            </button>
         </form>
 
         <div v-if="message" class="alert shadow rounded-md p-3 mx-6 shadow-xl"
@@ -24,13 +26,14 @@
             <span v-if="isMessageError" class="font-bold">Error: </span>
             <span v-else class="font-bold">Shortened URL: </span>
             <span v-if="isMessageError">{{ message }}</span>
-            <span v-else><a :href="message" target="_blank" class="text-blue-500 hover:underline">{{ message
-                    }}</a></span>
+            <span v-else><a :href="message" target="_blank" class="text-blue-500 hover:underline">{{ message }}</a></span>
         </div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -38,7 +41,7 @@ export default {
             folder: null,
             isMessageError: null,
             message: null,
-        };
+        } as { longUrl: string; folder: string | null; isMessageError: boolean | null; message: string | null };;
     },
     methods: {
         shortenUrl() {

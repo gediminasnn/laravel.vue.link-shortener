@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Link Shortener</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    @vite('resources/js/app.js')
+    @vite('resources/ts/app.ts')
   </head>
   <body>
     <div id="app"></div>
