@@ -1,5 +1,5 @@
-# URL Shortener Application Setup
-![main](https://github.com/gediminasnn/php-l-jsn-v.link-shortener/assets/70708109/f6b6e0d0-08c3-48aa-9126-b2a6ef15c5a3)
+# URL Shortener Application
+![main](https://github.com/gediminasnn/php-l-jsn-v.link-shortener/assets/70708109/6b5ed8ad-28b9-4ec6-8dd3-935b7692e029)
 
 This URL shortener application is built with Laravel and Vue.js. It provides a simple web interface to shorten URLs and implements checks against the Google Safe Browsing API (or similar) to ensure URL safety. This document outlines the steps required to set up the application on your local development environment.
 
@@ -9,7 +9,7 @@ Before proceeding with the setup, ensure you have the following installed on you
 
 -   Docker
 -   Docker Compose
--   PHP 8.2^
+-   Composer
 
 ## Installation Steps
 
@@ -31,9 +31,17 @@ Before proceeding with the setup, ensure you have the following installed on you
     
 3.  **Prepare the Environment File**
     
-    Before starting the Docker containers, prepare the application's environment file. Locate the `env.example` file in the application root and rename it to `.env`. Optionally, edit the `.env` file to adjust any environment variables specific to your setup.
+    Prepare the application's environment file. Locate the `env.example` file in the application root and rename it to `.env`. Optionally, edit the `.env` file to adjust any environment variables specific to your setup.
 
-4.  **Start the Docker Containers**
+4.  **Install Composer Dependencies**
+
+    Before starting the Docker containers, install the project's PHP dependencies using Composer. Open a terminal and navigate to your project directory. Then, run the following command:
+
+    `composer install`
+
+    This command downloads and installs all the PHP libraries your project requires based on the `composer.json` file.
+
+5.  **Start the Docker Containers**
     
     Use Laravel Sail to start the Docker containers. Run the following command in your terminal:
     
@@ -41,7 +49,7 @@ Before proceeding with the setup, ensure you have the following installed on you
     
     This command builds and starts all containers needed for the application. The first time you run this, it might take a few minutes to download and build everything.
     
-5.  **Run Migrations**
+6.  **Run Migrations**
     
     After the Docker containers are up and running, it's time to create the necessary database tables. In a new terminal window or tab, execute the following command:
     
@@ -49,7 +57,7 @@ Before proceeding with the setup, ensure you have the following installed on you
     
     This command runs the migration files against the database to create the necessary tables for the application.
 
-6.  **Install Node.js Dependencies**
+7.  **Install Node.js Dependencies**
     
     With the Docker containers up and running, you'll next need to install the Node.js dependencies required for the front-end part of the application. Open a new terminal window or tab and execute the following command:
     
@@ -57,7 +65,7 @@ Before proceeding with the setup, ensure you have the following installed on you
     
     This command will use Docker to run npm install within the application's container, ensuring that all Node.js dependencies are installed according to the package.json file located in the application root.
 
-7.  **Compile Front-End Assets**
+8.  **Compile Front-End Assets**
     
     After the installation of Node.js dependencies, you must compile the front-end assets using Laravel Mix. In the same terminal window or tab, execute the following command:
     
@@ -65,12 +73,12 @@ Before proceeding with the setup, ensure you have the following installed on you
     
     This command triggers Laravel Mix to compile and publish the assets, such as CSS and JavaScript files, making them available for use by the application.
 
-7.  **Run Tests**
+9.  **Run Tests**
     
     Ensure that your Docker containers are still up and running. Then, open a new terminal window or tab and execute the following command:
     
     `./vendor/bin/sail php artisan test` 
     
-    This command will use Laravel's built-in test runner to execute your application's test suite. It will run all the tests located in the tests directory of your application. Pay attention to the output of this command, as it will report on the success or failure of each test case. Fixing any failing tests is essential before moving on to deploying or using the application in a production environment.
+    This command will use Laravel's built-in test runner to execute your application's test suite. It will run all the tests located in the tests directory of your application.
 
     By completing this step, you will have fully set up your URL shortener application on your local development environment, ensuring it is ready for further development, testing, or deployment.
