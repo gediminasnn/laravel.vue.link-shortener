@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\App\Helpers;
+namespace Tests\Unit;
 
 use App\Helpers\RandomAlphanumericStringGenerator;
 use Tests\TestCase;
