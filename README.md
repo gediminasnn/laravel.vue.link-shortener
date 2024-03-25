@@ -1,5 +1,5 @@
 # URL Shortener Application
-![main](https://github.com/gediminasnn/php-l-jsn-v.link-shortener/assets/70708109/6b5ed8ad-28b9-4ec6-8dd3-935b7692e029)
+![main](https://github.com/gediminasnn/php-l-jsn-v.link-shortener/assets/70708109/ff2a0241-54e1-4175-a3fe-7fb6f022af79)
 
 This URL shortener application is built with Laravel and Vue.js. It provides a simple web interface to shorten URLs and implements checks against the Google Safe Browsing API (or similar) to ensure URL safety. This document outlines the steps required to set up the application on your local development environment.
 
