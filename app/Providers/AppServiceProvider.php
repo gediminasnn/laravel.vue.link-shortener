@@ -14,6 +14,7 @@ use App\Interfaces\IUrlsSafeBrowsingCheckerInterface;
 use App\Services\GoogleSafeBrowsingUrlChecker;
 use App\Services\UniqueUrlIdentifierGenerator;
 use App\Services\UrlShorteningService;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IRandomStringGenerator::class, RandomAlphanumericStringGenerator::class);
         $this->app->bind(IUrlRepository::class, UrlRepository::class);
         $this->app->bind(IUrlsSafeBrowsingCheckerInterface::class, function () {
-            return new GoogleSafeBrowsingUrlChecker(env('GOOGLE_SAFE_BROWSING_API_KEY'));
+            return new GoogleSafeBrowsingUrlChecker(Config::get('services.google.safe_browsing_api_key'));
         });
         $this->app->bind(IUniqueUrlIdentifierGenerator::class, UniqueUrlIdentifierGenerator::class);
     }
