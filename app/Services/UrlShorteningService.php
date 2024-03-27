@@ -40,17 +40,22 @@ class UrlShorteningService implements IUrlShorteningService
         }
 
         $existingUrl = $this->urlRepository->findByLongUrlAndFolder($longUrl, $folder);
-
         if (!$existingUrl) {
-            $url = new Url([
-                'long_url' => $longUrl,
-                'identifier' => $this->uniqueUrlIdentifierGenerator->generate(),
-                'folder' => $folder
-            ]);
-            $this->urlRepository->save($url);
-            $existingUrl = $url;
+            $existingUrl = $this->createUrl($longUrl, $folder);
         }
 
-        return [$existingUrl->getIdentifier(), $folder];
+        return [$existingUrl->getIdentifier(), $existingUrl->getFolder()];
+    }
+
+    private function createUrl(string $longUrl, ?string $folder = null): Url
+    {
+        $url = new Url([
+            'long_url' => $longUrl,
+            'identifier' => $this->uniqueUrlIdentifierGenerator->generate(),
+            'folder' => $folder
+        ]);
+        $this->urlRepository->save($url);
+
+        return $url;
     }
 }
