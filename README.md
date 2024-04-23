@@ -49,7 +49,15 @@ Before proceeding with the setup, ensure you have the following installed on you
     
     This command builds and starts all containers needed for the application. The first time you run this, it might take a few minutes to download and build everything.
     
-6.  **Run Migrations**
+6.  **Setup Configuration Cache**
+
+    Before starting the Docker containers, cache the application's configuration for performance optimization. Run the following command in your terminal:
+
+    `./vendor/bin/sail php artisan config:cache`
+
+    This command generates a cached file of all configuration values, which Laravel can load significantly faster than reading configuration files from disk every time. This improves the overall performance of the application.
+    
+7.  **Run Migrations**
     
     After the Docker containers are up and running, it's time to create the necessary database tables. In a new terminal window or tab, execute the following command:
     
@@ -57,7 +65,7 @@ Before proceeding with the setup, ensure you have the following installed on you
     
     This command runs the migration files against the database to create the necessary tables for the application.
 
-7.  **Install Node.js Dependencies**
+8.  **Install Node.js Dependencies**
     
     With the Docker containers up and running, you'll next need to install the Node.js dependencies required for the front-end part of the application. Open a new terminal window or tab and execute the following command:
     
@@ -65,7 +73,7 @@ Before proceeding with the setup, ensure you have the following installed on you
     
     This command will use Docker to run npm install within the application's container, ensuring that all Node.js dependencies are installed according to the package.json file located in the application root.
 
-8.  **Compile Front-End Assets**
+9.  **Compile Front-End Assets**
     
     After the installation of Node.js dependencies, you must compile the front-end assets using Laravel Mix. In the same terminal window or tab, execute the following command:
     
@@ -73,7 +81,7 @@ Before proceeding with the setup, ensure you have the following installed on you
     
     This command triggers Laravel Mix to compile and publish the assets, such as CSS and JavaScript files, making them available for use by the application.
 
-9.  **Run Tests**
+10.  **Run Tests**
     
     Ensure that your Docker containers are still up and running. Then, open a new terminal window or tab and execute the following command:
     
