@@ -14,6 +14,8 @@ use InvalidArgumentException;
 
 class UrlShorteningService implements IUrlShorteningService
 {
+    public const HTTP_CODE_BAD_REQUEST = 400;
+
     private IUrlRepository $urlRepository;
     private IUrlsSafeBrowsingCheckerInterface $urlsSafeBrowsingChecker;
     private IUniqueUrlIdentifierGenerator $uniqueUrlIdentifierGenerator;
@@ -28,6 +30,11 @@ class UrlShorteningService implements IUrlShorteningService
         $this->uniqueUrlIdentifierGenerator = $uniqueUrlIdentifierGenerator;
     }
 
+    /**
+     * @param string $longUrl
+     * @param string|null $folder
+     * @throws ThreatsFoundException if url has any threats found on google api
+     */
     public function shorten(string $longUrl, ?string $folder = null)
     {
         if (empty($longUrl)) {
@@ -36,7 +43,7 @@ class UrlShorteningService implements IUrlShorteningService
 
         $threats = $this->urlsSafeBrowsingChecker->check([$longUrl]);
         if (count($threats) > 0) {
-            throw new ThreatsFoundException('Google Safe Browsing has identified threats in this URL.');
+            throw new ThreatsFoundException('Google Safe Browsing has identified threats in this URL.', self::HTTP_CODE_BAD_REQUEST);
         }
 
         $existingUrl = $this->urlRepository->findByLongUrlAndFolder($longUrl, $folder);

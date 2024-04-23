@@ -6,7 +6,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class UnexpectedApiResponseException extends Exception
+class UrlShorteningException extends Exception
 {
     //
 }

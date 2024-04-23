@@ -6,7 +6,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class ApiResponseErrorException extends Exception
+class GoogleApiResponseException extends Exception
 {
     //
 }

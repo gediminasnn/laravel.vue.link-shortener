@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\GoogleApiResponseErrorException;
+use App\Exceptions\ThreatsFoundException;
 use App\Http\Requests\ShortenUrlRequest;
 use App\Interfaces\IUrlRepository;
 use App\Interfaces\IUrlShorteningService;
@@ -48,10 +50,9 @@ class UrlController extends Controller
     {
         try {
             [$identifier] = $this->urlShorteningService->shorten($request->get('long_url'));
-            $response = response()->json(['url' => route('redirect', $identifier)]);
 
-            return $response;
-        } catch (\Exception $e) {
+            return response()->json(['url' => route('redirect', ['identifier' => $identifier])]);
+        } catch (GoogleApiResponseErrorException|ThreatsFoundException $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => $e->getMessage()], $e->getCode());
         }
@@ -60,13 +61,10 @@ class UrlController extends Controller
     public function shortenFolderedUrl(ShortenUrlRequest $request): JsonResponse
     {
         try {
-            [$identifier, $folder] = $this->urlShorteningService->shorten(
-                $request->get('long_url'),
-                $request->get('folder')
-            );
+            [$identifier, $folder] = $this->urlShorteningService->shorten($request->get('long_url'), $request->get('folder'));
 
             return response()->json(['url' => route('redirect-foldered', ['folder' => $folder, 'identifier' => $identifier])]);
-        } catch (\Exception $e) {
+        } catch (GoogleApiResponseErrorException|ThreatsFoundException $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => $e->getMessage()], $e->getCode());
         }

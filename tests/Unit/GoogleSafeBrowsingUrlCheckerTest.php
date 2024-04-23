@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Exceptions\GoogleApiResponseErrorException;
+use App\Exceptions\UnexpectedGoogleApiResponseException;
 use App\Services\GoogleSafeBrowsingUrlChecker;
-use App\Exceptions\ApiResponseErrorException;
-use App\Exceptions\UnexpectedApiResponseException;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
@@ -89,7 +89,7 @@ class GoogleSafeBrowsingUrlCheckerTest extends TestCase
             => Http::response($response, self::HTTP_BAD_REQUEST_CODE),
         ]);
 
-        $this->expectException(ApiResponseErrorException::class);
+        $this->expectException(GoogleApiResponseErrorException::class);
         $this->expectExceptionMessage($errorMessage);
         $this->expectExceptionCode(self::HTTP_BAD_REQUEST_CODE);
 
@@ -103,7 +103,7 @@ class GoogleSafeBrowsingUrlCheckerTest extends TestCase
             => Http::response(['invalid' => 'data'], self::HTTP_SUCCESS_CODE),
         ]);
 
-        $this->expectException(UnexpectedApiResponseException::class);
+        $this->expectException(UnexpectedGoogleApiResponseException::class);
         $this->expectExceptionMessage('Unexpected response from Google Safe Browsing API');
 
         $this->checker->check(self::TEST_URLS);

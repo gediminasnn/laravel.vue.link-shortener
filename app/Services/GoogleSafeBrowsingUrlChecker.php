@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Exceptions\ApiResponseErrorException;
-use App\Exceptions\UnexpectedApiResponseException;
+use App\Exceptions\GoogleApiResponseErrorException;
+use App\Exceptions\UnexpectedGoogleApiResponseException;
 use Illuminate\Support\Facades\Http;
 use App\Interfaces\IUrlsSafeBrowsingCheckerInterface;
 use Illuminate\Http\Client\PendingRequest;
@@ -22,6 +22,8 @@ class GoogleSafeBrowsingUrlChecker implements IUrlsSafeBrowsingCheckerInterface
     public const PLATFORM_TYPE_WINDOWS = 'WINDOWS';
     public const THREAT_ENTRY_TYPE_URL = 'URL';
 
+    public const HTTP_CODE_BAD_REQUEST = 400;
+
     private $apiKey;
 
     public function __construct(string $apiKey)
@@ -29,6 +31,10 @@ class GoogleSafeBrowsingUrlChecker implements IUrlsSafeBrowsingCheckerInterface
         $this->apiKey = $apiKey;
     }
 
+    /**
+     * @param string[] $urls
+     * @throws GoogleApiResponseErrorException if the api server provides error response
+     */
     public function check(array $urls): array
     {
         $threatInfo = $this->prepareThreatInfo($urls);
@@ -38,7 +44,7 @@ class GoogleSafeBrowsingUrlChecker implements IUrlsSafeBrowsingCheckerInterface
         $data = $this->parseResponseBody($response);
 
         if ($this->hasError($data)) {
-            throw new ApiResponseErrorException($data['error']['message'], $data['error']['code']);
+            throw new GoogleApiResponseErrorException($data['error']['message'], self::HTTP_CODE_BAD_REQUEST);
         }
 
         if ($this->hasThreats($data)) {
@@ -46,7 +52,7 @@ class GoogleSafeBrowsingUrlChecker implements IUrlsSafeBrowsingCheckerInterface
         }
 
         if (!empty($data)) {
-            throw new UnexpectedApiResponseException('Unexpected response from Google Safe Browsing API');
+            throw new UnexpectedGoogleApiResponseException('Unexpected response from Google Safe Browsing API');
         }
 
         return [];
