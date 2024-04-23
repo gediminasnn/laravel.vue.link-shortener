@@ -5,6 +5,10 @@ declare(strict_types=1);
 use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/token', function () {
+    return csrf_token();
+});
+
 Route::get('/', function () {
     return view('home');
 });
@@ -20,7 +24,3 @@ Route::get('/{identifier}', [UrlController::class, 'redirectByIdentifier'])
 
 Route::get('/{folder}/{identifier}', [UrlController::class, 'redirectByIdentifierAndFolder'])
     ->name('redirect-foldered');
-
-Route::get('/token', function () {
-    return csrf_token();
-});
