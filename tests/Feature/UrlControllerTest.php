@@ -60,9 +60,11 @@ class UrlControllerTest extends TestCase
 
     public function testShortenUrlSuccess()
     {
+        $csrfToken = $this->getCsrfToken();
+
         $response = $this->postJson(route('shorten-url'), [
             'long_url' => 'https://www.example.com'
-        ]);
+        ], ['X-CSRF-TOKEN' => $csrfToken]);
 
         $response->assertStatus(200)
             ->assertJsonStructure(['url']);
@@ -74,9 +76,11 @@ class UrlControllerTest extends TestCase
 
     public function testShortenUrlValidationFailure()
     {
+        $csrfToken = $this->getCsrfToken();
+
         $response = $this->postJson(route('shorten-url'), [
             'long_url' => 'not a valid url'
-        ]);
+        ], ['X-CSRF-TOKEN' => $csrfToken]);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['long_url']);
@@ -84,10 +88,12 @@ class UrlControllerTest extends TestCase
 
     public function testShortenFolderedUrlSuccess()
     {
+        $csrfToken = $this->getCsrfToken();
+
         $response = $this->postJson(route('shorten-foldered-url'), [
             'long_url' => 'https://www.example.com',
             'folder' => 'myFolder'
-        ]);
+        ], ['X-CSRF-TOKEN' => $csrfToken]);
 
         $response->assertStatus(200)
             ->assertJsonStructure(['url']);
@@ -100,12 +106,20 @@ class UrlControllerTest extends TestCase
 
     public function testShortenFolderedUrlValidationFailure()
     {
+        $csrfToken = $this->getCsrfToken();
+
         $response = $this->postJson(route('shorten-url'), [
             'long_url' => 'https://www.example.com',
             'folder' => 'invalid_folder_format'
-        ]);
+        ], ['X-CSRF-TOKEN' => $csrfToken]);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['folder']);
+    }
+
+    private function getCsrfToken()
+    {
+        $response = $this->get('/token');
+        return $response->getContent();
     }
 }
