@@ -17,17 +17,17 @@ Before proceeding with the setup, ensure you have the following installed on you
     
     First, clone the repository to your local machine. Open a terminal and run the following command:
     
-    `git clone <repository-url>` 
+    `git clone git@github.com:gediminasnn/link-shortener.git` 
     
-    Replace `<repository-url>` with the actual URL of your repository.
+    (Optional) Replace `git@github.com:gediminasnn/link-shortener.git` with the URL of repository.
     
 1.  **Navigate to the Application Directory**
     
     Change directory to the application root:
     
-    `cd path/to/php-l-jsn-vlink-shortener-laravel` 
+    `cd link-shortener` 
     
-    Replace `path/to/php-l-jsn-vlink-shortener-laravel` with the actual path where you cloned the repository.
+    (Optional) Replace `link-shortener` with the path where you cloned the repository.
     
 2.  **Prepare the Environment File**
     
@@ -51,7 +51,7 @@ Before proceeding with the setup, ensure you have the following installed on you
     
 5.  **Setup Configuration Cache**
 
-    Before starting the Docker containers, cache the application's configuration for performance optimization. Run the following command in your terminal:
+    Before starting the Docker containers, cache the application's configuration for performance optimization. Open a new terminal from project root directory and run the following command:
 
     `./vendor/bin/sail php artisan config:cache`
 
@@ -59,15 +59,15 @@ Before proceeding with the setup, ensure you have the following installed on you
     
 6.  **Run Migrations**
     
-    After the Docker containers are up and running, it's time to create the necessary database tables. In a new terminal window or tab, execute the following command:
+    After the Docker containers are up and running, it's time to create the necessary database tables. In the terminal, execute the following command:
     
-    `docker exec -it php-l-jsn-vlink-shortener-laravel.test-1 php artisan migrate` 
+    `docker exec -it link-shortener-laravel.test-1 php artisan migrate` 
     
     This command runs the migration files against the database to create the necessary tables for the application.
 
 7.  **Install Node.js Dependencies**
     
-    With the Docker containers up and running, you'll next need to install the Node.js dependencies required for the front-end part of the application. Open a new terminal window or tab and execute the following command:
+    With the Docker containers up and running, you'll next need to install the Node.js dependencies required for the front-end part of the application. In the terminal, execute the following command:
     
     `./vendor/bin/sail npm install` 
     
@@ -81,12 +81,76 @@ Before proceeding with the setup, ensure you have the following installed on you
     
     This command triggers Laravel Mix to compile and publish the assets, such as CSS and JavaScript files, making them available for use by the application.
 
-9.  **Run Tests**
+9.  **(Optional) Run Tests**
     
-    Ensure that your Docker containers are still up and running. Then, open a new terminal window or tab and execute the following command:
+    Ensure that your Docker containers are still up and running. Open a new terminal window or tab and execute the following command:
     
     `./vendor/bin/sail php artisan test` 
     
     This command will use Laravel's built-in test runner to execute your application's test suite. It will run all the tests located in the tests directory of your application.
 
     By completing this step, you will have fully set up your URL shortener application on your local development environment, ensuring it is ready for further development, testing, or deployment.
+
+## API Documentation
+
+You can send HTTP requests to the following RESTful endpoints:
+
+1. Get CSRF token :
+
+    `GET /token`
+    ```
+    HTTP/1.1 200 OK
+    Content-Type: text/html; charset=UTF-8
+
+    qyFMrXaSyGee03wjfE2GT1WSyFTBfFMfCrmO64Xk
+    ```
+
+2. Shorten url
+    ```
+    GET /shorten-url
+    X-CSRF-TOKEN: {{CSRFTOKEN}}
+    Content-Type: application/json
+
+    {
+        "long_url": "https://gemini.google.com/"
+    }
+    ``` 
+
+    ```
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+    
+    {
+        "url": "http://localhost/xSU7c2"
+    }
+    ```
+
+2. Shorten foldered url
+    ```
+    GET /shorten-foldered-url
+    X-CSRF-TOKEN: {{CSRFTOKEN}}
+    Content-Type: application/json
+
+    {
+        "long_url": "https://www.facebook.com/",
+        "folder": "meta"
+    }
+
+    ``` 
+
+    ```
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+    
+    {
+        "url": "http://localhost/meta/M3hOWB"
+    }
+    ```
+
+## Pages Documentation
+
+### Successful link shortening display
+![success](https://github.com/gediminasnn/gediminasnn/assets/70708109/16d90d0d-26f3-4c4e-bc1b-dd87cb200ea9)
+
+### Unsuccessful link shortening display
+![error](https://github.com/gediminasnn/gediminasnn/assets/70708109/4d155757-eefb-4f87-9f10-7331cabc4a17)
