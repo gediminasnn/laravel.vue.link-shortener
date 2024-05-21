@@ -11,15 +11,15 @@ Before proceeding with the setup, ensure you have the following installed on you
 -   Docker Compose
 -   Composer
 
-## Installation Steps
+## Setup
 
 0.  **Clone the Repository**
     
     First, clone the repository to your local machine. Open a terminal and run the following command:
     
-    `git clone git@github.com:gediminasnn/link-shortener.git` 
+    `git clone git@github.com:gediminasnn/laravel.vue.link-shortener.git` 
     
-    (Optional) Replace `git@github.com:gediminasnn/link-shortener.git` with the URL of repository.
+    (Optional) Replace `git@github.com:gediminasnn/laravel.vue.link-shortener.git` with the URL of repository.
     
 1.  **Navigate to the Application Directory**
     
@@ -31,7 +31,7 @@ Before proceeding with the setup, ensure you have the following installed on you
     
 2.  **Prepare the Environment File**
     
-    Prepare the application's environment file. Locate the `env.example` file in the application root and rename it to `.env`. Optionally, edit the `.env` file to adjust any environment variables specific to your setup.
+    Prepare the application's environment file. Locate the `env.example` file in the application root and create a new file named `.env` using it as a template. Optionally, edit the `.env` file to adjust any environment variables specific to your setup.
 
 3.  **Install Composer Dependencies**
 
@@ -107,7 +107,7 @@ You can send HTTP requests to the following RESTful endpoints:
 
 2. Shorten url
     ```
-    GET /shorten-url
+    POST /shorten-url
     X-CSRF-TOKEN: {{CSRFTOKEN}}
     Content-Type: application/json
 
@@ -127,7 +127,7 @@ You can send HTTP requests to the following RESTful endpoints:
 
 2. Shorten foldered url
     ```
-    GET /shorten-foldered-url
+    POST /shorten-foldered-url
     X-CSRF-TOKEN: {{CSRFTOKEN}}
     Content-Type: application/json
 
@@ -154,3 +154,7 @@ You can send HTTP requests to the following RESTful endpoints:
 
 ### Unsuccessful link shortening display
 ![error](https://github.com/gediminasnn/gediminasnn/assets/70708109/4d155757-eefb-4f87-9f10-7331cabc4a17)
+
+## License
+
+This project is licensed under the MIT License
